@@ -311,7 +311,7 @@ join policy on policy.policy_identifier = agreement_assessment.agreement_identif
 join assessment on assessment.assessment_identifier = agreement_assessment.assessment_identifier""" ;
                               dwo:queryBase <https://myinsurancecompany.linked.data.world/d/omg-pc-database/> ] .
 map:TripleMap_haspolicyholder_18 a rr:TriplesMap ;
-    rr:predicateObjectMap  [ rr:objectMap [ rr:template "https://myinsurancecompany.linked.data.world/d/omg-pc-database/PolicyHolder-{party_identifier}" ] ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:template "https://myinsurancecompany.linked.data.world/d/omg-pc-database/Policy-Holder-{party_identifier}" ] ;
                            rr:predicate <http://data.world/schema/insurance/hasPolicyHolder> ] ;
     rr:subjectMap          [ rr:template "https://myinsurancecompany.linked.data.world/d/omg-pc-database/Policy-{policy_identifier}" ] ;
     rr:logicalTable         [ rr:sqlQuery """select policy.policy_identifier, party_identifier 
