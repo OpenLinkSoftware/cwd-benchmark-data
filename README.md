@@ -16,7 +16,9 @@ This repository is divided into multiple directories, each containing a specific
 
 - `investigation/`: Each Turtle (.ttl) file in this directory represents a complete benchmark investigation, which includes pointers to the dataset, metadata, and a set of inquiries. 
 
-- `data/`: This directory contains the dataset(s) used for the benchmark. The data is represented in multiple formats to support a wide range of query languages.  In addition to the CSV files, there is an R2RML file that describes the mapping between the ontology and the data tables. 
+- `data/`: This directory contains the dataset(s) used for the benchmark. The data is represented in multiple formats to support a wide range of query languages.  In addition to the CSV files.
+
+- `RDF-View`: This directory contains an R2RML file that describes the mapping between the ontology and the data tables.
 
 ## File Formats
 
