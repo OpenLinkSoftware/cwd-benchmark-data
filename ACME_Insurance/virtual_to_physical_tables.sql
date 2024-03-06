@@ -1,3 +1,4 @@
+-- Script for Creating Physical Renditions of Virtual Tables
 -- Cleanup
 
 DROP TABLE demo.acme.agreement_assessment;
@@ -62,7 +63,7 @@ CREATE TABLE demo.acme.expense_payment AS SELECT * FROM demo.acme.expense_paymen
 CREATE TABLE demo.acme.insurable_object AS SELECT * FROM demo.acme.insurable_object_attached WITH DATA;
 CREATE TABLE demo.acme.occurrence AS SELECT * FROM demo.acme.occurrence_attached WITH DATA;
 CREATE TABLE demo.acme.person AS SELECT * FROM demo.acme.person_attached WITH DATA;
-CREATE TABLE demo.acme.policy;
+CREATE TABLE demo.acme.policy
 (
   "Policy_Identifier" BIGINT,
   "Effective_Date" DATETIME,
