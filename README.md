@@ -32,3 +32,18 @@ This repository is divided into multiple directories, each containing a specific
  
 - CSV/TSV/etc.: Various data formats used for the benchmark dataset.
 
+## Setup (Virtuoso)
+
+Install the tables to your Virtuoso instance using one of the following options
+
+### Via Command Line
+
+`cd` into `{repo}/ACME_INSURANCE`, and run one of the following options:
+
+#### Option 1:  Attached and Physcial Tables
+`isql {port} {username} {password} full_setup.sql`
+
+#### Option 2:  Attached Tables Only
+`isql {port} {username} {password} csv_attach.sql`
+
+
