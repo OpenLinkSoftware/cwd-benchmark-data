@@ -16,7 +16,9 @@ This repository is divided into multiple directories, each containing a specific
 
 - `investigation/`: Each Turtle (.ttl) file in this directory represents a complete benchmark investigation, which includes pointers to the dataset, metadata, and a set of inquiries. 
 
-- `data/`: This directory contains the dataset(s) used for the benchmark. The data is represented in multiple formats to support a wide range of query languages.  In addition to the CSV files, there is an R2RML file that describes the mapping between the ontology and the data tables. 
+- `data/`: This directory contains the dataset(s) used for the benchmark. The data is represented in multiple formats to support a wide range of query languages.  In addition to the CSV files.
+
+- `RDF-View`: This directory contains an R2RML file that describes the mapping between the ontology and the data tables.
 
 ## File Formats
 
@@ -29,4 +31,19 @@ This repository is divided into multiple directories, each containing a specific
  - R2RML: a TTL file that describes mappings according to the [RDB to RDF Mapping Language](https://www.w3.org/TR/r2rml/)
  
 - CSV/TSV/etc.: Various data formats used for the benchmark dataset.
+
+## Setup (Virtuoso)
+
+Install the tables to your Virtuoso instance using one of the following options
+
+### Via Command Line
+
+`cd` into `{repo}/ACME_INSURANCE`, and run one of the following options:
+
+#### Option 1:  Attached and Physcial Tables
+`isql {port} {username} {password} full_setup.sql`
+
+#### Option 2:  Attached Tables Only
+`isql {port} {username} {password} csv_attach.sql`
+
 

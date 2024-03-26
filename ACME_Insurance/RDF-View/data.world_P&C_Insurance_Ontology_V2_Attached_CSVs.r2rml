@@ -1,0 +1,898 @@
+@prefix rr:  <http://www.w3.org/ns/r2rml#> .
+@prefix map:  <http://capsenta.com/mappings#> .
+@prefix dwo:  <https://ontology.data.world/v0#> .
+
+map:TripleMap_Agent_0 a rr:TriplesMap ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>;
+                             rr:class <http://data.world/schema/insurance/Agent> ;
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Agent-{party_identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT DISTINCT 
+                                                party_identifier 
+                                             FROM demo.acme.agreement_party_role_attached
+                                             JOIN demo.acme.policy_attached ON agreement_identifier = policy_identifier 
+                                             WHERE agreement_party_role_attached.party_role_code = 'AG'""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_hasclaim_8 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:template "http://demo.openlinksw.com/acme-insurance/Claim-{Claim_Identifier}#this" ];
+                           rr:predicate <http://data.world/schema/insurance/hasClaim> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>;
+                             rr:template "http://demo.openlinksw.com/acme-insurance/PolicyCoverageDetail-{Policy_Coverage_Detail_Identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:tableName "demo.acme.claim_coverage_attached" ] .
+
+map:TripleMap_hascatastrophe_19 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:template "http://demo.openlinksw.com/acme-insurance/Catastrophe-{Catastrophe_Identifier}#this" ];
+                           rr:predicate <http://data.world/schema/insurance/hasCatastrophe> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>;
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Claim-{Claim_Identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:tableName "demo.acme.claim_attached" ] .
+
+map:TripleMap_PolicyCoverageEffectiveDate_19 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:column "Effective_Date" ] ;
+                           rr:predicate <http://data.world/schema/insurance/policyCoverageEffectiveDate> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>;
+                             rr:template "http://demo.openlinksw.com/acme-insurance/PolicyCoverageDetail-{Policy_Coverage_Detail_Identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:tableName "demo.acme.policy_coverage_detail_attached" ] .
+
+map:TripleMap_underwritespolicy_16 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:template "http://demo.openlinksw.com/acme-insurance/Policy-{policy_identifier}#this" ];
+                           rr:predicate <http://data.world/schema/insurance/underwritesPolicy> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>;
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Underwriting-Assessment-{assessment_identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT 
+                                                policy_attached.policy_identifier, 
+                                                assessment_attached.assessment_identifier
+                                             FROM demo.acme.agreement_assessment_attached
+                                             JOIN demo.acme.policy_attached ON policy_attached.policy_identifier = agreement_assessment_attached.agreement_identifier
+                                             JOIN demo.acme.assessment_attached ON assessment_attached.assessment_identifier = agreement_assessment_attached.assessment_identifier""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_CatastropheName_18 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:column "Catastrophe_Name" ] ;
+                           rr:predicate <http://data.world/schema/insurance/catastropheName> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>;
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Catastrophe-{Catastrophe_Identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:tableName "demo.acme.catastrophe_attached" ] .
+
+map:TripleMap_PolicyHolderID_12 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:column "party_identifier" ] ;
+                           rr:predicate <http://data.world/schema/insurance/policyHolderId>
+                            ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Policy-Holder-{party_identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT DISTINCT 
+                                                party_identifier 
+                                             FROM demo.acme.agreement_party_role_attached
+                                             JOIN demo.acme.policy_attached ON agreement_party_role_attached.agreement_identifier = policy_attached.policy_identifier 
+                                             WHERE agreement_party_role_attached.party_role_code = 'PH'""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_City_18 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:column "municipality_name" ] ;
+                           rr:predicate <http://data.world/schema/insurance/city> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Location-{geographic_location_identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT 
+                                                geographic_location_identifier,
+                                                line_1_address, 
+                                                line_2_address, 
+                                                municipality_name, 
+                                                location_address_attached.state_code, 
+                                                postal_code, 
+                                                country_code, 
+                                                latitude_value,
+                                                longitude_value
+                                             FROM demo.acme.geographic_location_attached 
+                                             JOIN demo.acme.location_address_attached ON geographic_location_attached.location_address_identifier = location_address_attached.location_address_identifier
+                                             JOIN demo.acme.physical_location_attached ON geographic_location_attached.physical_location_identifier = physical_location_attached.physical_location_identifier""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_PolicyExpirationDate_15 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:column "Expiration_Date" ] ;
+                           rr:predicate <http://data.world/schema/insurance/policyExpirationDate> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Policy-{Policy_Identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:tableName "demo.acme.policy_attached" ] .
+    
+map:TripleMap_Premium_6 a rr:TriplesMap ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>;
+                             rr:class <http://data.world/schema/insurance/Premium> ;
+                           rr:template "http://demo.openlinksw.com/acme-insurance/Premium-{policy_amount_identifier}#this" 
+                       ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT 
+                                                policy_amount_attached.policy_amount_identifier, 
+                                                policy_amount_attached.policy_amount , 
+                                                policy_amount_attached.amount_type_code , 
+                                                CASE when policy_amount_attached.amount_type_code = 'Year' then policy_amount_attached.policy_amount/12 end as monthly_policy_amount, 
+                                                policy_amount_attached.policy_coverage_detail_identifier
+                                             FROM demo.acme.policy_amount_attached 
+                                             JOIN demo.acme.premium_attached ON policy_amount_attached.policy_amount_identifier = premium_attached.policy_amount_identifier""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_ClaimNumber_1 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:column "Company_Claim_Number" ] ;
+                           rr:predicate <http://data.world/schema/insurance/claimNumber> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Claim-{Claim_Identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:tableName "demo.acme.claim_attached" ] .
+
+map:TripleMap_PolicyNumber_11 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:column "Policy_Number" ] ;
+                           rr:predicate <http://data.world/schema/insurance/policyNumber> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:class <http://data.world/schema/insurance/Policy>;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Policy-{Policy_Identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:tableName "demo.acme.policy_attached" ] .
+
+map:TripleMap_PolicyCoverageExpirationDate_0 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:column "Expiration_Date" ] ;
+                           rr:predicate <http://data.world/schema/insurance/policyCoverageExpirationDate> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/PolicyCoverageDetail-{Policy_Coverage_Detail_Identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:tableName "demo.acme.policy_coverage_detail_attached" ] .
+
+map:TripleMap_Latitude_6 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:column "latitude_value" ] ;
+                           rr:predicate <http://data.world/schema/insurance/latitude> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Location-{geographic_location_identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT 
+                                                geographic_location_identifier,
+                                                line_1_address, 
+                                                line_2_address, 
+                                                municipality_name, 
+                                                location_address_attached.state_code, 
+                                                postal_code, 
+                                                country_code, 
+                                                latitude_value,
+                                                longitude_value
+                                             FROM demo.acme.geographic_location_attached 
+                                             JOIN demo.acme.location_address_attached ON geographic_location_attached.location_address_identifier = location_address_attached.location_address_identifier
+                                             JOIN demo.acme.physical_location_attached ON geographic_location_attached.physical_location_identifier = physical_location_attached.physical_location_identifier""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_ExpensePaymentAmount_7 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:column "claim_amount"; rr:datatype: xsd:integer ] ;
+                           rr:predicate <http://data.world/schema/insurance/expensePaymentAmount> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/ClaimAmount-{claim_amount_identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT 
+                                                ca.claim_identifier, 
+                                                ca.claim_amount_identifier, 
+                                                ca.claim_amount
+                                             FROM demo.acme.claim_amount_attached ca
+                                             JOIN demo.acme.expense_payment_attached ep ON ca.claim_amount_identifier = ep.claim_amount_identifier""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_InsurableObjects_8 a rr:TriplesMap ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:class <http://data.world/schema/insurance/InsurableObject> ;
+                           rr:template "http://demo.openlinksw.com/acme-insurance/InsurableObject-{Insurable_Object_Identifier}#this" 
+                       ];
+    rr:logicalTable         [ rr:tableName "demo.acme.insurable_object_attached" ] .
+
+map:TripleMap_PremiumPeriod_3 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:column "amount_type_code" ] ;
+                           rr:predicate <http://data.world/schema/insurance/premiumPeriod> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Premium-{policy_amount_identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT 
+                                                policy_amount_attached.policy_amount_identifier, 
+                                                policy_amount_attached.policy_amount, 
+                                                policy_amount_attached.amount_type_code,  
+                                                CASE when policy_amount_attached.amount_type_code = 'Year' then policy_amount_attached.policy_amount/12 end  as monthly_policy_amount,    policy_amount_attached.policy_coverage_detail_identifier
+                                             FROM demo.acme.policy_amount_attached 
+                                             JOIN demo.acme.premium_attached ON policy_amount_attached.policy_amount_identifier = premium_attached.policy_amount_identifier""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_PolicyCoverageDetailID_3 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:column "Policy_Coverage_Detail_Identifier" ] ;
+                           rr:predicate <http://data.world/schema/insurance/policyCoverageDetailId> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/PolicyCoverageDetail-{Policy_Coverage_Detail_Identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:tableName "demo.acme.policy_coverage_detail_attached" ] .
+
+map:TripleMap_LossReserveAmount_17 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:column "claim_amount"; rr:datatype: xsd:integer ] ;
+                           rr:predicate <http://data.world/schema/insurance/lossReserveAmount> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/ClaimAmount-{claim_amount_identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT 
+                                                ca.claim_identifier, 
+                                                ca.claim_amount_identifier, 
+                                                ca.claim_amount
+                                             FROM demo.acme.claim_amount_attached ca
+                                             JOIN demo.acme.loss_reserve_attached lr ON ca.claim_amount_identifier = lr.claim_amount_identifier""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_AgentID_2 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:column "party_identifier" ] ;
+                           rr:predicate <http://data.world/schema/insurance/agentId> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Agent-{party_identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT DISTINCT 
+                                                party_identifier
+                                             FROM demo.acme.agreement_party_role_attached
+                                             JOIN demo.acme.policy_attached ON agreement_party_role_attached.agreement_identifier = policy_attached.policy_identifier 
+                                             WHERE agreement_party_role_attached.party_role_code = 'AG'""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_hasinsurableobject_7 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:template "http://demo.openlinksw.com/acme-insurance/InsurableObject-{Insurable_Object_Identifier}#this" ];
+                           rr:predicate <http://data.world/schema/insurance/hasInsurableObject> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/PolicyCoverageDetail-{Policy_Coverage_Detail_Identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:tableName "demo.acme.policy_coverage_detail_attached" ] .
+
+map:TripleMap_ExpenseReserveAmount_9 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:column "claim_amount"; rr:datatype: xsd:integer ] ;
+                           rr:predicate <http://data.world/schema/insurance/expenseReserveAmount> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/ClaimAmount-{claim_amount_identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT 
+                                                ca.claim_identifier, 
+                                                ca.claim_amount_identifier, 
+                                                ca.claim_amount
+                                             FROM demo.acme.claim_amount_attached ca
+                                             JOIN demo.acme.expense_reserve_attached er ON ca.claim_amount_identifier = er.claim_amount_identifier""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_hasUnderwriter_15 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:template "http://demo.openlinksw.com/acme-insurance/Underwriter-{party_identifier}#this" ];
+                           rr:predicate <http://data.world/schema/insurance/hasUnderwriter> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; rr:template "http://demo.openlinksw.com/acme-insurance/UnderwritingAssessment-{assessment_identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT 
+                                                assessment_attached.assessment_identifier, 
+                                                assessment_party_role_attached.party_identifier
+                                             FROM demo.acme.assessment_result_attached ar
+                                             JOIN demo.acme.underwriting_assessment_attached ua ON ar.assessment_result_identifier = ua.assessment_result_identifier
+                                             JOIN demo.acme.assessment_attached  ON ar.assessment_identifier = assessment_attached.assessment_identifier
+                                             JOIN demo.acme.assessment_party_role_attached ON assessment_party_role_attached.assessment_identifier = assessment_attached.assessment_identifier
+                                             WHERE assessment_party_role_attached.party_role_code = 'UW'""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_PremiumAmountMonthly_17 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:column "monthly_policy_amount"; rr:datatype: xsd:integer ] ;
+                           rr:predicate <http://data.world/schema/insurance/premiumAmountMonthly> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Premium-{policy_amount_identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT 
+                                                policy_amount_attached.policy_amount_identifier, 
+                                                policy_amount_attached.policy_amount, 
+                                                policy_amount_attached.amount_type_code , 
+                                                CASE when policy_amount_attached.amount_type_code = 'Year' then policy_amount_attached.policy_amount/12 end as monthly_policy_amount, 
+                                                policy_amount_attached.policy_coverage_detail_identifier
+                                             FROM demo.acme.policy_amount_attached 
+                                             JOIN demo.acme.premium_attached ON policy_amount_attached.policy_amount_identifier = premium_attached.policy_amount_identifier""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_haspolicyamount_8 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:template "http://demo.openlinksw.com/acme-insurance/PolicyAmount-{policy_amount_identifier}#this" ];
+                           rr:predicate <http://data.world/schema/insurance/hasPolicyAmount> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>;
+                             rr:template "http://demo.openlinksw.com/acme-insurance/PolicyCoverageDetail-{policy_coverage_detail_identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT 
+                                                policy_amount_identifier, 
+                                                policy_amount_attached.policy_amount, 
+                                                policy_amount_attached.policy_coverage_detail_identifier
+                                             FROM demo.acme.policy_amount_attached 
+                                             WHERE policy_amount_identifier not in (SELECT policy_amount_identifier FROM demo.acme.premium_attached )""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_UnderwritingEndDate_9 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:column "end_date" ] ;
+                           rr:predicate <http://data.world/schema/insurance/underwritingEndDate> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/UnderwritingAssessment-{assessment_identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT 
+                                                assessment_attached.assessment_identifier, 
+                                                assessment_description, 
+                                                assessment_attached.begin_date, 
+                                                assessment_attached.end_date, 
+                                                assessment_result_type_code 
+                                             FROM demo.acme.assessment_result_attached ar
+                                             JOIN demo.acme.underwriting_assessment_attached ua ON ar.assessment_result_identifier = ua.assessment_result_identifier
+                                             JOIN demo.acme.assessment_attached  ON ar.assessment_identifier = assessment_attached.assessment_identifier""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_haspremium_0 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:template "http://demo.openlinksw.com/acme-insurance/Premium-{policy_amount_identifier}#this" ];
+                           rr:predicate <http://data.world/schema/insurance/hasPremiumAmount> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>;
+                             rr:template "http://demo.openlinksw.com/acme-insurance/PolicyCoverageDetail-{policy_coverage_detail_identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT 
+                                                policy_amount_attached.policy_amount_identifier, 
+                                                policy_amount_attached.policy_amount, 
+                                                policy_amount_attached.amount_type_code , 
+                                                CASE when policy_amount_attached.amount_type_code = 'Year' then policy_amount_attached.policy_amount/12 end as monthly_policy_amount, 
+                                                policy_amount_attached.policy_coverage_detail_identifier
+                                             FROM demo.acme.policy_amount_attached 
+                                             JOIN demo.acme.premium_attached ON policy_amount_attached.policy_amount_identifier = premium_attached.policy_amount_identifier""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_Claim_16 a rr:TriplesMap ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:class <http://data.world/schema/insurance/Claim> ;
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Claim-{Claim_Identifier}#this" 
+                            ];
+    rr:logicalTable         [ rr:tableName "demo.acme.claim_attached" ] .
+
+map:TripleMap_ClaimCloseDate_8 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:column "Claim_Close_Date" ] ;
+                           rr:predicate <http://data.world/schema/insurance/claimCloseDate> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Claim-{Claim_Identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:tableName "demo.acme.claim_attached" ] .
+
+map:TripleMap_Underwriter_4 a rr:TriplesMap ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:class <http://data.world/schema/insurance/Underwriter> ;
+                           rr:template "http://demo.openlinksw.com/acme-insurance/Underwriter-{party_identifier}#this" 
+                       ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT DISTINCT 
+                                                party_identifier
+                                             FROM demo.acme.assessment_party_role_attached
+                                             WHERE assessment_party_role_attached.party_role_code = 'UW'""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_PolicyAmount_10 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:column "policy_amount"; rr:datatype: xsd:integer ] ;
+                           rr:predicate <http://data.world/schema/insurance/policyAmount> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/PolicyAmount-{policy_amount_identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT 
+                                                policy_amount_identifier, 
+                                                policy_amount_attached.policy_amount, 
+                                                policy_amount_attached.policy_coverage_detail_identifier
+                                             FROM demo.acme.policy_amount_attached 
+                                             WHERE policy_amount_identifier not in (SELECT policy_amount_identifier FROM demo.acme.premium_attached )""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_LossPaymentAmount_15 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:column "claim_amount"; rr:datatype: xsd:integer ] ;
+                           rr:predicate <http://data.world/schema/insurance/lossPaymentAmount> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/ClaimAmount-{claim_amount_identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT 
+                                                ca.claim_identifier, 
+                                                ca.claim_amount_identifier, 
+                                                ca.claim_amount
+                                             FROM demo.acme.claim_amount_attached ca
+                                             JOIN demo.acme.loss_payment_attached lp ON ca.claim_amount_identifier = lp.claim_amount_identifier""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_haslosspayment_13 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:template "http://demo.openlinksw.com/acme-insurance/ClaimAmount-{claim_amount_identifier}#this" ];
+                           rr:predicate <http://data.world/schema/insurance/hasLossPayment> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Claim-{claim_identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT 
+                                                ca.claim_identifier, 
+                                                ca.claim_amount_identifier, 
+                                                ca.claim_amount
+                                             FROM demo.acme.claim_amount_attached ca
+                                             JOIN demo.acme.loss_payment_attached lp ON ca.claim_amount_identifier = lp.claim_amount_identifier""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_Longitud_8 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:column "longitude_value" ] ;
+                           rr:predicate <http://data.world/schema/insurance/longitud> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Location-{geographic_location_identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT 
+                                                geographic_location_identifier,
+                                                line_1_address, 
+                                                line_2_address, 
+                                                municipality_name, 
+                                                location_address_attached.state_code, 
+                                                postal_code, 
+                                                country_code, 
+                                                latitude_value,
+                                                longitude_value
+                                             FROM demo.acme.geographic_location_attached 
+                                             JOIN demo.acme.location_address_attached ON geographic_location_attached.location_address_identifier = location_address_attached.location_address_identifier
+                                             JOIN demo.acme.physical_location_attached ON geographic_location_attached.physical_location_identifier = physical_location_attached.physical_location_identifier""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_PolicyHolder_12 a rr:TriplesMap ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:class <http://data.world/schema/insurance/PolicyHolder> ;
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Policy-Holder-{party_identifier}#this" 
+                       ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT DISTINCT 
+                                                party_identifier 
+                                             FROM demo.acme.agreement_party_role_attached
+                                             JOIN demo.acme.policy_attached ON agreement_party_role_attached.agreement_identifier = policy_attached.policy_identifier 
+                                             WHERE agreement_party_role_attached.party_role_code = 'PH'""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_ClaimOpenDate_10 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:column "Claim_Open_Date" ] ;
+                           rr:predicate <http://data.world/schema/insurance/claimOpenDate> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Claim-{Claim_Identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:tableName "demo.acme.claim_attached" ] .
+
+map:TripleMap_involvesinsurableobject_13 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:template "http://demo.openlinksw.com/acme-insurance/InsurableObject-{Insurable_Object_Identifier}#this" ];
+                           rr:predicate <http://data.world/schema/insurance/involvesInsurableObject> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Claim-{Claim_Identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:tableName "demo.acme.claim_attached" ] .
+
+map:TripleMap_haspolicycoveragedetail_15 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:template "http://demo.openlinksw.com/acme-insurance/PolicyCoverageDetail-{Policy_Coverage_Detail_Identifier}#this" ];
+                           rr:predicate <http://data.world/schema/insurance/hasPolicyCoverageDetail> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Policy-{Policy_Identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:tableName "demo.acme.policy_coverage_detail_attached" ] .
+
+map:TripleMap_Country_14 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:column "country_code" ] ;
+                           rr:predicate <http://data.world/schema/insurance/country> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Location-{geographic_location_identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT 
+                                                geographic_location_identifier,
+                                                line_1_address, 
+                                                line_2_address, 
+                                                municipality_name, 
+                                                location_address_attached.state_code, 
+                                                postal_code, 
+                                                country_code, 
+                                                latitude_value,
+                                                longitude_value
+                                             FROM demo.acme.geographic_location_attached 
+                                             JOIN demo.acme.location_address_attached ON geographic_location_attached.location_address_identifier = location_address_attached.location_address_identifier
+                                             JOIN demo.acme.physical_location_attached ON geographic_location_attached.physical_location_identifier = physical_location_attached.physical_location_identifier""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_PolicyCoverageDetail_17 a rr:TriplesMap ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:class <http://data.world/schema/insurance/PolicyCoverageDetail> ;
+                           rr:template "http://demo.openlinksw.com/acme-insurance/PolicyCoverageDetail-{Policy_Coverage_Detail_Identifier}#this" 
+                       ];
+    rr:logicalTable         [ rr:tableName "demo.acme.policy_coverage_detail_attached" ] .
+
+map:TripleMap_hasexpensepayment_2 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:template "http://demo.openlinksw.com/acme-insurance/ClaimAmount-{claim_amount_identifier}#this" ];
+                           rr:predicate <http://data.world/schema/insurance/hasExpensePayment> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Claim-{claim_identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT 
+                                                ca.claim_identifier, 
+                                                ca.claim_amount_identifier, 
+                                                ca.claim_amount
+                                             FROM demo.acme.claim_amount_attached ca
+                                             JOIN demo.acme.expense_payment_attached ep ON ca.claim_amount_identifier = ep.claim_amount_identifier""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_hasUnderwritingAssessment_3 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:template "http://demo.openlinksw.com/acme-insurance/UnderwritingAssessment-{assessment_identifier}#this" ];
+                           rr:predicate <http://data.world/schema/insurance/hasUnderwritingAssessment> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Policy-{policy_identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT 
+                                                policy_attached.policy_identifier, 
+                                                assessment_attached.assessment_identifier
+                                             FROM demo.acme.agreement_assessment_attached
+                                             JOIN demo.acme.policy_attached ON policy_attached.policy_identifier = agreement_assessment_attached.agreement_identifier
+                                             JOIN demo.acme.assessment_attached ON assessment_attached.assessment_identifier = agreement_assessment_attached.assessment_identifier""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_haspolicyholder_18 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:template "http://demo.openlinksw.com/acme-insurance/Policy-Holder-{party_identifier}#this" ];
+                           rr:predicate <http://data.world/schema/insurance/hasPolicyHolder> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Policy-{policy_identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT 
+                                                policy_attached.policy_identifier, 
+                                                party_identifier
+                                             FROM demo.acme.agreement_party_role_attached
+                                             JOIN demo.acme.policy_attached ON agreement_party_role_attached.agreement_identifier = policy_attached.policy_identifier
+                                             WHERE agreement_party_role_attached.party_role_code = 'PH'""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_Policy_13 a rr:TriplesMap ;
+    rr:subjectMap          [ rr:class <http://data.world/schema/insurance/Policy> ;
+                             rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Policy-{Policy_Identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:tableName "demo.acme.policy_attached" ] .
+
+map:TripleMap_Location_17 a rr:TriplesMap ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:class <http://data.world/schema/insurance/Location> ;
+                           rr:template "http://demo.openlinksw.com/acme-insurance/Location-{geographic_location_identifier}#this" 
+                       ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT 
+                                                geographic_location_identifier,
+                                                line_1_address, 
+                                                line_2_address, 
+                                                municipality_name, 
+                                                location_address_attached.state_code, 
+                                                postal_code, 
+                                                country_code, 
+                                                latitude_value,
+                                                longitude_value
+                                             FROM demo.acme.geographic_location_attached 
+                                             JOIN demo.acme.location_address_attached ON geographic_location_attached.location_address_identifier = location_address_attached.location_address_identifier
+                                             JOIN demo.acme.physical_location_attached ON geographic_location_attached.physical_location_identifier = physical_location_attached.physical_location_identifier""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_against_14 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:template "http://demo.openlinksw.com/acme-insurance/PolicyCoverageDetail-{Policy_Coverage_Detail_Identifier}#this" ];
+                           rr:predicate <http://data.world/schema/insurance/against> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Claim-{Claim_Identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:tableName "demo.acme.claim_coverage_attached" ] .
+
+map:TripleMap_hasexpensereserve_16 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:template "http://demo.openlinksw.com/acme-insurance/ClaimAmount-{claim_amount_identifier}#this" ];
+                           rr:predicate <http://data.world/schema/insurance/hasExpenseReserve> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Claim-{claim_identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT 
+                                                ca.claim_identifier, 
+                                                ca.claim_amount_identifier, 
+                                                ca.claim_amount
+                                             FROM demo.acme.claim_amount_attached ca
+                                             JOIN demo.acme.expense_reserve_attached er ON ca.claim_amount_identifier = er.claim_amount_identifier""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_haslocation_1 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:template "http://demo.openlinksw.com/acme-insurance/Location-{Geographic_Location_Identifier}#this" ];
+                           rr:predicate <http://data.world/schema/insurance/hasLocation> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/InsurableObject-{Insurable_Object_Identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:tableName "demo.acme.insurable_object_attached" ] .
+
+map:TripleMap_UnderwritingAssessment_16 a rr:TriplesMap ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:class <http://data.world/schema/insurance/UnderwritingAssessment> ;
+                           rr:template "http://demo.openlinksw.com/acme-insurance/UnderwritingAssessment-{assessment_identifier}#this" 
+                       ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT 
+                                                assessment_attached.assessment_identifier, 
+                                                assessment_description, 
+                                                assessment_attached.begin_date, 
+                                                assessment_attached.end_date, 
+                                                assessment_result_type_code 
+                                             FROM demo.acme.assessment_result_attached ar
+                                             JOIN demo.acme.underwriting_assessment_attached ua ON ar.assessment_result_identifier = ua.assessment_result_identifier
+                                             JOIN demo.acme.assessment_attached  ON ar.assessment_identifier = assessment_attached.assessment_identifier""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_haspolicy_1 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:template "http://demo.openlinksw.com/acme-insurance/Policy-{Policy_Identifier}#this" ];
+                           rr:predicate <http://data.world/schema/insurance/hasPolicy> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/PolicyCoverageDetail-{Policy_Coverage_Detail_Identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:tableName "demo.acme.policy_coverage_detail_attached" ] .
+
+map:TripleMap_AddressLine1_0 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:column 'line_1_address' ] ;
+                           rr:predicate <http://data.world/schema/insurance/addressLine1> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Location-{geographic_location_identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT 
+                                                geographic_location_identifier,
+                                                line_1_address, 
+                                                line_2_address, 
+                                                municipality_name, 
+                                                location_address_attached.state_code, 
+                                                postal_code, 
+                                                country_code, 
+                                                latitude_value,
+                                                longitude_value
+                                             FROM demo.acme.geographic_location_attached 
+                                             JOIN demo.acme.location_address_attached ON geographic_location_attached.location_address_identifier = location_address_attached.location_address_identifier
+                                             JOIN demo.acme.physical_location_attached ON geographic_location_attached.physical_location_identifier = physical_location_attached.physical_location_identifier""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_soldbyagent_14 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:template "http://demo.openlinksw.com/acme-insurance/Agent-{party_identifier}#this" ];
+                           rr:predicate <http://data.world/schema/insurance/soldByAgent> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Policy-{policy_identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT 
+                                                policy_attached.policy_identifier, 
+                                                party_identifier
+                                             FROM demo.acme.agreement_party_role_attached
+                                             JOIN demo.acme.policy_attached ON agreement_party_role_attached.agreement_identifier = policy_attached.policy_identifier
+                                             WHERE agreement_party_role_attached.party_role_code = 'AG'""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_Catastrophe_0 a rr:TriplesMap ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:class <http://data.world/schema/insurance/Catastrophe> ;
+                           rr:template "http://demo.openlinksw.com/acme-insurance/Catastrophe-{Catastrophe_Identifier}#this" 
+                       ];
+    rr:logicalTable         [ rr:tableName "demo.acme.catastrophe_attached" ] .
+
+map:TripleMap_UnderwriterID_9 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:column "party_identifier" ] ;
+                           rr:predicate <http://data.world/schema/insurance/underwriterId> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Underwriter-{party_identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT DISTINCT 
+                                                party_identifier
+                                             FROM demo.acme.assessment_party_role_attached
+                                             WHERE demo.acme.assessment_party_role_attached.party_role_code = 'UW'""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_PolicyAmount_6 a rr:TriplesMap ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:class <http://data.world/schema/insurance/PolicyAmount> ;
+                           rr:template "http://demo.openlinksw.com/acme-insurance/PolicyAmount-{policy_amount_identifier}#this" 
+                       ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT 
+                                                policy_amount_identifier, 
+                                                policy_amount_attached.policy_amount, 
+                                                policy_amount_attached.policy_coverage_detail_identifier
+                                             FROM demo.acme.policy_amount_attached 
+                                             WHERE policy_amount_identifier not in (SELECT policy_amount_identifier FROM demo.acme.premium_attached )""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_haslossreserve_0 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:template "http://demo.openlinksw.com/acme-insurance/ClaimAmount-{claim_amount_identifier}#this" ];
+                           rr:predicate <http://data.world/schema/insurance/hasLossReserve> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Claim-{claim_identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT 
+                                                ca.claim_identifier, 
+                                                ca.claim_amount_identifier, 
+                                                ca.claim_amount
+                                             FROM demo.acme.claim_amount_attached ca
+                                             JOIN demo.acme.loss_reserve_attached lr ON ca.claim_amount_identifier = lr.claim_amount_identifier""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_UnderwritingBeginDate_1 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:column "begin_date" ] ;
+                           rr:predicate <http://data.world/schema/insurance/underwritingBeginDate> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/UnderwritingAssessment-{assessment_identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT 
+                                                assessment_attached.assessment_identifier, 
+                                                assessment_description, 
+                                                assessment_attached.begin_date, 
+                                                assessment_attached.end_date, 
+                                                assessment_result_type_code 
+                                             FROM demo.acme.assessment_result_attached ar
+                                             JOIN demo.acme.underwriting_assessment_attached ua ON ar.assessment_result_identifier = ua.assessment_result_identifier
+                                             JOIN demo.acme.assessment_attached  ON ar.assessment_identifier = assessment_attached.assessment_identifier""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_ZipCode_10 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:column "postal_code" ] ;
+                           rr:predicate <http://data.world/schema/insurance/zipCode> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Location-{geographic_location_identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT 
+                                                geographic_location_identifier,
+                                                line_1_address, 
+                                                line_2_address, 
+                                                municipality_name, 
+                                                location_address_attached.state_code, 
+                                                postal_code, 
+                                                country_code, 
+                                                latitude_value,
+                                                longitude_value
+                                             FROM demo.acme.geographic_location_attached 
+                                             JOIN demo.acme.location_address_attached ON geographic_location_attached.location_address_identifier = location_address_attached.location_address_identifier
+                                             JOIN demo.acme.physical_location_attached ON geographic_location_attached.physical_location_identifier = physical_location_attached.physical_location_identifier""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_AddressLine2_16 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:column "line_2_address" ] ;
+                           rr:predicate <http://data.world/schema/insurance/addressLine2> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Location-{geographic_location_identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT 
+                                                geographic_location_identifier,
+                                                line_1_address, 
+                                                line_2_address, 
+                                                municipality_name, 
+                                                location_address_attached.state_code, 
+                                                postal_code, 
+                                                country_code, 
+                                                latitude_value,
+                                                longitude_value
+                                             FROM demo.acme.geographic_location_attached 
+                                             JOIN demo.acme.location_address_attached ON geographic_location_attached.location_address_identifier = location_address_attached.location_address_identifier
+                                             JOIN demo.acme.physical_location_attached ON geographic_location_attached.physical_location_identifier = physical_location_attached.physical_location_identifier""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_State_11 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:column "state_code" ] ;
+                           rr:predicate <http://data.world/schema/insurance/state> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Location-{geographic_location_identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT 
+                                                geographic_location_identifier,
+                                                line_1_address, 
+                                                line_2_address, 
+                                                municipality_name, 
+                                                location_address_attached.state_code, 
+                                                postal_code, 
+                                                country_code, 
+                                                latitude_value,
+                                                longitude_value
+                                             FROM demo.acme.geographic_location_attached 
+                                             JOIN demo.acme.location_address_attached ON geographic_location_attached.location_address_identifier = location_address_attached.location_address_identifier
+                                             JOIN demo.acme.physical_location_attached ON geographic_location_attached.physical_location_identifier = physical_location_attached.physical_location_identifier""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
+
+map:TripleMap_PolicyEffectiveDate_15 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:column "Effective_Date" ] ;
+                           rr:predicate <http://data.world/schema/insurance/policyEffectiveDate> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Policy-{Policy_Identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:tableName "demo.acme.policy_attached" ] .
+
+map:TripleMap_PremiumAmount_14 a rr:TriplesMap ;
+    rr:predicateObjectMap  [ rr:objectMap [ rr:column "policy_amount"; rr:datatype: xsd:integer ] ;
+                           rr:predicate <http://data.world/schema/insurance/premiumAmount> ] ;
+    rr:subjectMap          [ rr:termType rr:IRI;
+                             rr:graph <http://demo.openlinksw.com/acme-insurance-test-attached#>; 
+                             rr:template "http://demo.openlinksw.com/acme-insurance/Premium-{policy_amount_identifier}#this" 
+                           ];
+    rr:logicalTable         [ rr:sqlQuery """SELECT 
+                                                policy_amount_attached.policy_amount_identifier, 
+                                                policy_amount_attached.policy_amount, 
+                                                policy_amount_attached.amount_type_code , 
+                                                CASE when policy_amount_attached.amount_type_code = 'Year' then policy_amount_attached.policy_amount/12 end as monthly_policy_amount, 
+                                                policy_amount_attached.policy_coverage_detail_identifier
+                                             FROM demo.acme.policy_amount_attached 
+                                             JOIN demo.acme.premium_attached ON policy_amount_attached.policy_amount_identifier = premium_attached.policy_amount_identifier""" ;
+                              dwo:queryBase <http://demo.openlinksw.com/acme-insurance/> 
+                            ] .
