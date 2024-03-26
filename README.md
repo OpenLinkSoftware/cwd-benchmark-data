@@ -1,10 +1,14 @@
-# Chat with your Data (cwd) Benchmark Data
+# Chat with your Data (cwd) Benchmark Data via Virtuoso
 
 ## Introduction 
 
-This repository contains the data and metadata for the "Chat with your Data" benchmark. The aim of this project is to provide a comprehensive set of test scenarios for Language-to-query (specifically SQL and SPARQL) systems. 
+This repository contains the data and metadata for the "Chat with your Data" benchmark. The aim of this project is to provide a comprehensive set of test scenarios for Language-to-query (specifically SQL and SPARQL) systems. It focuses on testing whether these systems are capable of accurately converting natural language questions into valid, effective queries against various data sources. 
 
-It focuses on testing whether these systems are capable of accurately converting natural language questions into valid, effective queries against various data sources. 
+This variant of the project has been enhanced for live deployment using a Virtuoso instance. Live deployment meaning: a publicly accessible instance comprising the following:
+
+1. SQL Relational Database.
+2. Knowledge Graph constructed using RDF Views (Virtuoso Quad Mappings to SQL Tables).
+3. Revised SQL and SPARQL Queries.
 
 ## Repository Structure
 
