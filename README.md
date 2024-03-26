@@ -6,7 +6,7 @@ This repository contains the data and metadata for the "Chat with your Data" ben
 
 This variant of the project has been enhanced for live deployment using a Virtuoso instance. Live deployment meaning: a publicly accessible instance comprising the following:
 
-1. SQL Relational Database.
+1. SQL-accessible Relational Database.
 2. Knowledge Graph constructed using RDF Views (Virtuoso Quad Mappings to SQL Tables).
 3. Revised SQL and SPARQL Queries.
 
